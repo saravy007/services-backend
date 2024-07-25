@@ -1,0 +1,45 @@
+const mongoose = require("mongoose");
+// Define a schema
+const serviceTakeSchema = new mongoose.Schema({
+  byApplicant: { type: mongoose.Types.ObjectId, ref: "Applicant" },
+  byService: { type: Number, ref: "Services" },
+  verifyByCertType: {
+    type: Number,
+    ref: "CertificateType",
+    default: 0,
+  },
+  verify_attach1: { type: String },
+  is_name: { type: Boolean, default: false },
+  old_name: { type: String },
+  new_name: { type: String },
+  is_gender: { type: Boolean, default: false },
+  old_gender: { type: String },
+  new_gender: { type: String },
+  is_dob: { type: Boolean, default: false },
+  old_dob: { type: Date },
+  new_dob: { type: Date },
+  is_pob: { type: Boolean, default: false },
+  old_pob: { type: String },
+  new_pob: { type: String },
+  is_father: { type: Boolean, default: false },
+  old_father: { type: String },
+  new_father: { type: String },
+  is_mother: { type: Boolean, default: false },
+  old_mother: { type: String },
+  new_mother: { type: String },
+  edit_attach1: { type: String },
+  edit_attach2: { type: String },
+  edit_attach3: { type: String },
+  edit_attach4: { type: String },
+  edit_attach5: { type: String },
+  edit_attach6: { type: String },
+  reissue_attach1: { type: String },
+  reissue_attach2: { type: String },
+  reissue_attach3: { type: String },
+  reissue_attach4: { type: String },
+  status: { type: Number, default: 1 },
+  createdDate: { type: Date, default: Date.now() },
+});
+// Create a model
+const ServiceTake = mongoose.model("ServiceTake", serviceTakeSchema);
+module.exports = ServiceTake;
