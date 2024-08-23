@@ -1,8 +1,6 @@
 //const { decrypt } = require("dotenv");
 const bcrypt = require("bcrypt");
 const dbConnect = require("./database/mongo_db");
-// const Book = require("./models/book");
-// const Tweet = require("./models/tweet");
 const User = require("./models/user");
 const { faker } = require("@faker-js/faker");
 const CertificateType = require("./models/certificateType");
@@ -12,13 +10,11 @@ const ServiceTake = require("./models/serviceTake");
 dbConnect().catch((err) => {
   console.log(err);
 });
-// const numTweet = 100;
-// const numBooks = 200;
 
-const numUser = 20;
+const numUser = 10;
 const numCertificateType = 3;
 const numServices = 3;
-const numApplicant = 100;
+const numApplicant = 10;
 
 // Generate fake data
 
@@ -87,25 +83,9 @@ async function generate() {
     }
   }
   //generate applicant and service take data
+
   let gradeList = ["A", "B", "C", "D", "E", "F"];
   for (let i = 0; i < numApplicant; i++) {
-    const randomId = userList[Math.floor(Math.random() * userList.length)];
-    const randomGrade = gradeList[Math.floor(Math.random() * gradeList.length)];
-    const applicant = new Applicant({
-      byUser: randomId,
-      name: faker.internet.userName(),
-      gender: faker.person.gender(),
-      dob: faker.date.anytime(),
-      address: faker.location.secondaryAddress(),
-      examDate: faker.date.anytime(),
-      examCenter: faker.location.city(),
-      room: faker.number.int({ max: 100 }),
-      seat: faker.number.int({ max: 1000 }),
-      grade: randomGrade,
-      phone: faker.phone.number(),
-    });
-    const reusltApp = await applicant.save();
-
     let indexService = faker.number.int({ min: 1, max: 3 });
     let boleanList = [true, false];
     let isName = boleanList[Math.floor(Math.random() * boleanList.length)];
@@ -115,7 +95,7 @@ async function generate() {
     let isFather = boleanList[Math.floor(Math.random() * boleanList.length)];
     let isMother = boleanList[Math.floor(Math.random() * boleanList.length)];
     const serviceTake = new ServiceTake({
-      byApplicant: reusltApp._id,
+      // byApplicant: reusltApp._id,
       byService: indexService,
 
       verifyByCertType:
@@ -159,46 +139,26 @@ async function generate() {
       status: faker.number.int({ max: 3 }),
     });
     const reusltServ = await serviceTake.save();
+    console.log(`ServiceTake: ${reusltServ._id} generated!`);
+
+    const randomId = userList[Math.floor(Math.random() * userList.length)];
+    const randomGrade = gradeList[Math.floor(Math.random() * gradeList.length)];
+    const applicant = new Applicant({
+      byUser: randomId,
+      name: faker.internet.userName(),
+      gender: faker.person.gender(),
+      dob: faker.date.anytime(),
+      address: faker.location.secondaryAddress(),
+      examDate: faker.date.anytime(),
+      examCenter: faker.location.city(),
+      room: faker.number.int({ max: 100 }),
+      seat: faker.number.int({ max: 1000 }),
+      grade: randomGrade,
+      phone: faker.phone.number(),
+      serviceTake: reusltServ._id,
+    });
+    const reusltApp = await applicant.save();
     console.log(`Applicant: ${reusltApp.name} generated!`);
   }
-
-  // for (let i = 0; i < numTweet; i++) {
-  //   const randomId = userList[Math.floor(Math.random() * userList.length)];
-  //   const tweet = new Tweet({
-  //     text: faker.lorem.paragraph(),
-  //     byUser: randomId,
-  //   });
-  //   const reuslt = await tweet.save();
-  //   console.log(`Tweet: ${reuslt._id} generated!`);
-  // }
-
-  // for (let i = 0; i < numBooks; i++) {
-  //   const randomId = userList[Math.floor(Math.random() * userList.length)];
-  //   const random2 = userList[Math.floor(Math.random() * userList.length)];
-  //   const book = new Book({
-  //     page: faker.number.int(),
-  //     title: `How to be ${faker.person.jobTitle()}`,
-  //     description: faker.lorem.sentence(),
-  //     genre: faker.music.genre(),
-  //     authors: [randomId, random2],
-  //   });
-  //   const reuslt = await book.save();
-  //   console.log(`Book: ${reuslt._id} generated!`);
-  // }
-
-  // const tweets = await Tweet.find();
-  // const users = await User.find();
-  // users.forEach(async (user) => {
-  //   const belongTweets = tweets.filter((tt) => {
-  //     return tt.byUser.toString() == user._id;
-  //   });
-  //   let tweetsArray = [];
-  //   belongTweets.forEach((ttt) => {
-  //     tweetsArray.push(ttt._id);
-  //   });
-  //   user.tweets = tweetsArray;
-  //   await user.save();
-  //   console.log(`User: ${user._id} saved!`);
-  // });
 }
 generate();

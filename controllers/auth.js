@@ -20,7 +20,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
   // Sign JWT
   const token = signJWT(user._id, user.email);
 
-  return res.json({ token });
+  return res.json({ id: user._id, email: user.email, token });
 });
 
 const signupUser = expressAsyncHandler(async (req, res) => {

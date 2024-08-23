@@ -1,33 +1,40 @@
-//roles.js
 const roles = [
   {
     name: "admin",
     permissions: [
-      "create_record",
-      "read_record",
-      "update_record",
-      "delete_record",
-      "update_own_record",
-      "delete_own_record",
+      "user_read_all",
+      "user_read_byid",
+      "user_update",
+      "user_delete",
+      "app_read_all",
+      "app_read_byid",
+      "app_read_byuser",
+      "app_create",
+      "app_update",
+      "app_delete",
     ],
   },
   {
     name: "front",
     permissions: [
-      "create_record",
-      "read_record",
-      "update_record",
-      "update_own_record",
-      "delete_own_record",
+      "user_read_byid",
+      "user_update",
+      "app_read_all",
+      "app_read_byid",
+      "app_read_byuser",
+      "app_update_status", //----------need to add new route
     ],
   },
   {
     name: "user",
     permissions: [
-      "create_record",
-      "read_record",
-      "update_own_record",
-      "delete_own_record",
+      "user_read_byid",
+      "user_update",
+      "app_read_byid",
+      "app_read_byuser",
+      "app_create",
+      "app_update",
+      "app_delete",
     ],
   },
 ];

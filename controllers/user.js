@@ -14,16 +14,6 @@ const getUser = asyncHandler(async (req, res) => {
   return res.json(user);
 });
 
-// const createUser = asyncHandler(async (req, res, next) => {
-//   const { name, email } = req.body;
-//   const user = new User({
-//     name: name,
-//     email: email,
-//   });
-//   const result = await user.save();
-//   return res.json(result);
-// });
-
 const deleteUserById = asyncHandler(async (req, res) => {
   const id = req.params.id;
   const result = await User.deleteOne({ _id: id });
@@ -32,50 +22,31 @@ const deleteUserById = asyncHandler(async (req, res) => {
 
 const updateUserByID = asyncHandler(async (req, res) => {
   const id = req.params.id;
+  const { firstName, lastName, gender, dob, address } = req.body;
   const updateDocument = {
     $set: {
-      username: "sok sao",
+      firstName: firstName,
+      lastName: lastName,
+      gender: gender,
+      dob: dob,
+      address: address,
     },
   };
   const result = await User.updateOne({ _id: id }, updateDocument);
   return res.json(result);
 });
 
-// const getTweetByUserID = async (req, res) => {
+// const updateUserByIDDB = asyncHandler(async (req, res, next) => {
 //   const id = req.params.id;
-//   const result = await Tweet.find({
-//     byUser: id,
-//   });
-//   return res.json(result);
-// };
-
-// const getbooksByUserID = expressAsyncHandler(async (req, res) => {
-//   const id = req.params.id;
-//   const result = await Book.find({
-//     authors: {
-//       $elemMatch: {
-//         $eq: id,
-//       },
-//     },
-//   });
-//   return res.json(result);
+//   const { password, confirmedPassword, ...self } = req.body;
+//   const result = await User.updateOne({ ...self, id });
+//   const user = await User.findById(id);
+//   return res.json({ result, user });
 // });
-
-const updateUserByIDDB = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-  const { password, confirmedPassword, ...self } = req.body;
-  const result = await User.updateOne({ ...self, id });
-  const user = await User.findById(id);
-  return res.json({ result, user });
-});
 
 module.exports = {
   getUser,
   getUsers,
-  // createUser,
   deleteUserById,
   updateUserByID,
-  // getTweetByUserID,
-  // getbooksByUserID,
-  updateUserByIDDB,
 };

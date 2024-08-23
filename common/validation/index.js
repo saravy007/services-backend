@@ -18,13 +18,9 @@ const loginSchema = checkSchema({
 
 const createUserSchema = checkSchema({
   username: {
-    isAlphanumeric: {
-      locale: "en-US",
-    },
     isLength: {
       options: {
-        max: 15,
-        min: 6,
+        min: 1,
       },
     },
   },

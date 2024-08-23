@@ -12,6 +12,7 @@ const applicantSchema = new mongoose.Schema({
   seat: { type: Number },
   grade: { type: String },
   phone: { type: String },
+  serviceTake: { type: mongoose.Types.ObjectId, ref: "ServiceTake" },
   createdDate: { type: Date, default: Date.now() },
 });
 // Create a model
