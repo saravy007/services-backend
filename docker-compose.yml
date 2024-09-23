@@ -1,0 +1,14 @@
+version: "1"
+services:
+  mongodb-services:
+    image: mongo:latest
+    container_name: mongodb-services
+    ports:
+      - "27017:27017"
+  services-backend:
+    image: api-server
+    container_name: services-backend
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongodb-services
