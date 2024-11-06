@@ -8,7 +8,7 @@ const { signJWT } = require("../utils");
 const loginUser = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body;
   // Find the user by email
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).lean();
   if (!user) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
@@ -19,8 +19,8 @@ const loginUser = expressAsyncHandler(async (req, res) => {
   }
   // Sign JWT
   const token = signJWT(user._id, user.email);
-
-  return res.json({ id: user._id, email: user.email, token });
+  user.token = token;
+  return res.json(user);
 });
 
 const signupUser = expressAsyncHandler(async (req, res) => {
@@ -34,8 +34,13 @@ const signupUser = expressAsyncHandler(async (req, res) => {
     email,
     password: hashedPassword,
   });
-  const result = await user.save();
-  res.status(201).json({ message: "User created successfully" });
+  const result = (await user.save()).toObject();
+  if (result) {
+    // Sign JWT
+    const token = signJWT(result._id, result.email);
+    result.token = token;
+  }
+  return res.json(result);
 });
 
 const showGoogleOAuthScreen = expressAsyncHandler(async (req, res) => {

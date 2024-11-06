@@ -12,6 +12,8 @@ const {
   resourceControl,
 } = require("../middlewares");
 const { updateUserSchema } = require("../common/validation");
+const upload = require("../middlewares/upload");
+const { uploadFile, getFile } = require("../controllers/user-profile");
 
 //get user by id
 router.get("/:id", authorize("user_read_byid"), getUser); //isValidat
@@ -32,6 +34,26 @@ router.get("/:id", authorize("user_read_byid"), getUser); //isValidat
  *     responses:
  *       200:
  *         description: Get an user by ID
+ */
+//get all user
+router.get("/profile/:id", authorize("user_read_byid"), getFile);
+/**
+ * @swagger
+ * /users/profile/{id}:
+ *   get:
+ *     tags: [user]
+ *     description: Get user profile by ID
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: string
+ *     responses:
+ *       200:
+ *         description: Get user profile by ID
  */
 //get all user
 router.get("/", authorize("user_read_all"), getUsers);
@@ -68,7 +90,22 @@ router.delete("/:id", authorize("user_delete"), deleteUserById);
  *         description: Delete an user by ID
  */
 //update user
-router.put("/:id", authorize("user_update"), updateUserByID);
+// (req, res, next) => {
+//   req.saravy = "hello from saravy";
+//   console.log("hello1");
+//   next();
+// }
+// (req, res, next) => {
+//   console.log(req.saravy);
+//   next();
+// }
+router.put(
+  "/:id",
+  authorize("user_update"),
+  upload,
+  uploadFile,
+  updateUserByID
+);
 /**
  * @swagger
  * /users/{id}:
@@ -98,6 +135,8 @@ router.put("/:id", authorize("user_update"), updateUserByID);
  *                  type: string
  *                dob:
  *                  type: date
+ *                phone:
+ *                  type: string
  *                address:
  *                  type: string
  *              example:
@@ -105,6 +144,7 @@ router.put("/:id", authorize("user_update"), updateUserByID);
  *                lastName: "សៅ"
  *                gender: "Male"
  *                dob: "01/04/1991"
+ *                phone: "012459678"
  *                address: "ភ្នំពេញ"
  *     responses:
  *       200:

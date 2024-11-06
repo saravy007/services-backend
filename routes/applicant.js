@@ -6,9 +6,30 @@ const {
   createApplicant,
   updateApplicantById,
   getApplicantByUserID,
+  countApplicants,
 } = require("../controllers/applicant");
 const { authorize, resourceControl } = require("../middlewares");
 const router = express.Router();
+
+router.get("/count/:id", authorize("app_read_byid"), countApplicants);
+/**
+ * @swagger
+ * /applicant/count/{id}:
+ *   get:
+ *     tags: [applicant]
+ *     description: Count applicants by user ID
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: string
+ *     responses:
+ *       200:
+ *         description: Count applicants by user ID
+ */
 
 router.get("/:id", authorize("app_read_byid"), getApplicant);
 /**
@@ -124,8 +145,8 @@ router.post("/:uid", authorize("app_create"), createApplicant);
  *                    seat: 628
  *                    grade: "C"
  *                    phone: "011256987"
- *                    byService: 1
- *                    verifyByCertType: 1
+ *                    service: "verify"
+ *                    verifyByCertType: "diploma"
  *                    verify_attach1: "D:/hello kanha"
  *                edit:
  *                  summary: edit certificate
@@ -140,7 +161,7 @@ router.post("/:uid", authorize("app_create"), createApplicant);
  *                    seat: 628
  *                    grade: "C"
  *                    phone: "011256987"
- *                    byService: 2
+ *                    service: "edit"
  *                    is_name: true
  *                    old_name: "សុខ កញ្ញា"
  *                    new_name: "សុខ តារា"
@@ -178,7 +199,7 @@ router.post("/:uid", authorize("app_create"), createApplicant);
  *                    seat: 628
  *                    grade: "C"
  *                    phone: "011256987"
- *                    byService: 3
+ *                    service: "reissue"
  *                    reissue_attach1: "D/home"
  *                    reissue_attach2: null
  *                    reissue_attach3: null
@@ -211,10 +232,10 @@ router.post("/:uid", authorize("app_create"), createApplicant);
  *            type: string
  *          phone:
  *            type: string
- *          byService:
- *            type: integer
+ *          service:
+ *            type: string
  *          verifyByCertType:
- *            type: integer
+ *            type: string
  *          verify_attach1:
  *            type: string
  *        required:
@@ -245,8 +266,8 @@ router.post("/:uid", authorize("app_create"), createApplicant);
  *            type: string
  *          phone:
  *            type: string
- *          byService:
- *            type: integer
+ *          service:
+ *            type: string
  *          is_name:
  *            type: boolean
  *          old_name:
@@ -323,8 +344,8 @@ router.post("/:uid", authorize("app_create"), createApplicant);
  *            type: string
  *          phone:
  *            type: string
- *          byService:
- *            type: integer
+ *          service:
+ *            type: string
  *          reissue_attach1:
  *            type: string
  *          reissue_attach2:
@@ -382,8 +403,8 @@ router.put(
  *                    seat: 628
  *                    grade: "C"
  *                    phone: "011256987"
- *                    byService: 1
- *                    verifyByCertType: 1
+ *                    service: "verify"
+ *                    verifyByCertType: "diploma"
  *                    verify_attach1: "D:/hello kanha"
  *                edit:
  *                  summary: edit certificate
@@ -398,7 +419,7 @@ router.put(
  *                    seat: 628
  *                    grade: "C"
  *                    phone: "011256987"
- *                    byService: 2
+ *                    service: "edit"
  *                    is_name: true
  *                    old_name: "សុខ កញ្ញា"
  *                    new_name: "សុខ តារា"
@@ -436,7 +457,7 @@ router.put(
  *                    seat: 628
  *                    grade: "C"
  *                    phone: "011256987"
- *                    byService: 3
+ *                    service: "reissue"
  *                    reissue_attach1: "D/home"
  *                    reissue_attach2: null
  *                    reissue_attach3: null
@@ -445,5 +466,4 @@ router.put(
  *       200:
  *         description: Update an applicant by ID
  */
-
 module.exports = router;

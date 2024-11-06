@@ -22,7 +22,7 @@ const roles = [
       "app_read_all",
       "app_read_byid",
       "app_read_byuser",
-      "app_update_status", //----------need to add new route
+      "app_update",
     ],
   },
   {

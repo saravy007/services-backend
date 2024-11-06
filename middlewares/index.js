@@ -65,11 +65,11 @@ const resourceControl = (resource) => {
   return async (req, res, next) => {
     const id = req.params.id;
     const userId = req.user.id;
+    //console.log(req.user.role);
     if (req.user.role == "admin") {
+      //console.log("go next");
       next();
-    }
-
-    if (resource == "applicant") {
+    } else if (resource == "applicant") {
       if (req.permission == "app_delete" || req.permission == "app_update") {
         const app = await Applicant.findOne({ _id: id, byUser: userId });
         if (app) {

@@ -1,9 +1,6 @@
 const mongoose = require("mongoose");
 // Define a schema
-const serviceTakeSchema = new mongoose.Schema({
-  byService: { type: Number, ref: "Services" },
-  verifyByCertType: { type: Number, ref: "CertificateType" },
-  verify_attach1: { type: String },
+const editSchema = new mongoose.Schema({
   is_name: { type: Boolean },
   old_name: { type: String },
   new_name: { type: String },
@@ -28,13 +25,8 @@ const serviceTakeSchema = new mongoose.Schema({
   edit_attach4: { type: String },
   edit_attach5: { type: String },
   edit_attach6: { type: String },
-  reissue_attach1: { type: String },
-  reissue_attach2: { type: String },
-  reissue_attach3: { type: String },
-  reissue_attach4: { type: String },
-  status: { type: Number, default: 1 },
   createdDate: { type: Date, default: Date.now() },
 });
 // Create a model
-const ServiceTake = mongoose.model("ServiceTake", serviceTakeSchema);
-module.exports = ServiceTake;
+const Edit = mongoose.model("edit", editSchema);
+module.exports = Edit;

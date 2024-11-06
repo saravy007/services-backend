@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+require("../models/verify");
+require("../models/edit");
+require("../models/reissue");
 // Define a schema
 const applicantSchema = new mongoose.Schema({
   byUser: { type: mongoose.Types.ObjectId, ref: "User" },
@@ -12,7 +15,13 @@ const applicantSchema = new mongoose.Schema({
   seat: { type: Number },
   grade: { type: String },
   phone: { type: String },
-  serviceTake: { type: mongoose.Types.ObjectId, ref: "ServiceTake" },
+  service: {
+    type: String,
+    required: true,
+    enum: ["verify", "edit", "reissue"],
+  },
+  serviceTake: { type: mongoose.Types.ObjectId, refPath: "service" },
+  status: { type: Number, default: 1 },
   createdDate: { type: Date, default: Date.now() },
 });
 // Create a model

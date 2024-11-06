@@ -7,6 +7,7 @@ const { logger, errorHandle, verifyToken } = require("./middlewares");
 const authRouter = require("./routes/auth.js");
 const userRouter = require("./routes/user.js");
 const appRouter = require("./routes/applicant.js");
+//const userProfileRouter = require("./routes/user-profile.js");
 const bodyParser = require("body-parser");
 const dbConnect = require("./database/mongo_db.js");
 require("dotenv").config();
