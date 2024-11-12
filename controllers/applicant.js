@@ -10,7 +10,7 @@ const countApplicants = asyncHandler(async (req, res) => {
   const countApp = await Applicant.countDocuments({
     byUser: id,
   });
-
+  // mark by saravy
   const userId = new mongoose.Types.ObjectId(id);
   const countByCat = await Applicant.aggregate([
     { $match: { byUser: userId } }, // Add any condition here
