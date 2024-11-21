@@ -24,13 +24,6 @@ const createUserSchema = checkSchema({
       },
     },
   },
-  // must be int, min 1 max 150
-  // phone: {
-  //   isInt: {
-  //     options: { min: 1, max: 150 },
-  //     errorMessage: "Age must be between 1 and 150",
-  //   },
-  // },
   // must be email
   email: {
     isEmail: true,

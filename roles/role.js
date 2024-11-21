@@ -2,6 +2,8 @@ const roles = [
   {
     name: "admin",
     permissions: [
+      "profile_read_byuser",
+      "profile_upload_byuser",
       "user_read_all",
       "user_read_byid",
       "user_update",
@@ -17,6 +19,7 @@ const roles = [
   {
     name: "front",
     permissions: [
+      "profile_read_byuser",
       "user_read_byid",
       "user_update",
       "app_read_all",
@@ -28,6 +31,8 @@ const roles = [
   {
     name: "user",
     permissions: [
+      "profile_read_byuser",
+      "profile_upload_byuser",
       "user_read_byid",
       "user_update",
       "app_read_byid",

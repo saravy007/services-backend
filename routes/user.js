@@ -12,8 +12,8 @@ const {
   resourceControl,
 } = require("../middlewares");
 const { updateUserSchema } = require("../common/validation");
-const upload = require("../middlewares/upload");
-const { uploadFile, getFile } = require("../controllers/user-profile");
+//const upload = require("../middlewares/upload");
+//const { uploadFile, getFile } = require("../controllers/user-profile");
 
 //get user by id
 router.get("/:id", authorize("user_read_byid"), getUser); //isValidat
@@ -34,26 +34,6 @@ router.get("/:id", authorize("user_read_byid"), getUser); //isValidat
  *     responses:
  *       200:
  *         description: Get an user by ID
- */
-//get all user
-router.get("/profile/:id", authorize("user_read_byid"), getFile);
-/**
- * @swagger
- * /users/profile/{id}:
- *   get:
- *     tags: [user]
- *     description: Get user profile by ID
- *     security:
- *      - bearerAuth: []
- *     parameters:
- *      - in: path
- *        name: id
- *        required: true
- *        schema:
- *          type: string
- *     responses:
- *       200:
- *         description: Get user profile by ID
  */
 //get all user
 router.get("/", authorize("user_read_all"), getUsers);
@@ -99,13 +79,7 @@ router.delete("/:id", authorize("user_delete"), deleteUserById);
 //   console.log(req.saravy);
 //   next();
 // }
-router.put(
-  "/:id",
-  authorize("user_update"),
-  upload,
-  uploadFile,
-  updateUserByID
-);
+router.put("/:id", authorize("user_update"), updateUserByID);
 /**
  * @swagger
  * /users/{id}:

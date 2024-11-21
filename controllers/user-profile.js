@@ -3,15 +3,15 @@ const { UserProfile } = require("../models/user-profile");
 const fs = require("fs");
 const mongoose = require("mongoose");
 
-const uploadFile = expressAsyncHandler(async (req, res, next) => {
+const uploadFile = expressAsyncHandler(async (req, res) => {
   if (req.file == undefined) {
-    next();
+    throw new Error({ msg: "No file selected!" });
   } else {
-    const id = req.params.id;
+    const id = req.params.uid;
     const fileProperties = req.file;
     fileProperties.byUser = id;
     const file = new UserProfile(fileProperties);
-    const path = "/IDG Data/Project/services-backend/" + file.path;
+    const path = "@/" + file.path; //
     file.path = path;
 
     let result;
@@ -30,12 +30,12 @@ const uploadFile = expressAsyncHandler(async (req, res, next) => {
       //save new reord in db
       result = await file.save();
     }
-    next();
+    return res.json(result);
   }
 });
 
 const getFile = expressAsyncHandler(async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.uid;
   const file = await UserProfile.findOne({ byUser: id });
   return res.sendFile(file.path);
 });

@@ -14,6 +14,7 @@ require("dotenv").config();
 const passport = require("passport");
 const jwtStrategy = require("./common/straegies/jwt-strategy.js");
 const { setupSwagger } = require("./swagger/index.js");
+const userProfileRouter = require("./routes/user-profile.js");
 
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
@@ -32,6 +33,11 @@ app.use(
   "/applicant",
   passport.authenticate("jwt", { session: false }),
   appRouter
+);
+app.use(
+  "/user-profile",
+  passport.authenticate("jwt", { session: false }),
+  userProfileRouter
 );
 // Basic error handling middleware
 app.use(errorHandle);

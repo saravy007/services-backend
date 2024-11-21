@@ -65,6 +65,7 @@ const createApplicant = asyncHandler(async (req, res) => {
   const { ...self } = req.body;
   const uid = new mongoose.Types.ObjectId(req.params.uid);
 
+  //save service data to db
   let service;
   if (self.service == "verify") {
     service = new Verify({
@@ -107,7 +108,7 @@ const createApplicant = asyncHandler(async (req, res) => {
     });
   }
   const resultService = await service.save();
-
+  //save applicant data to db
   const applicant = new Applicant({
     byUser: uid,
     name: self.name,

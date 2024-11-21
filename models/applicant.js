@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 require("../models/verify");
 require("../models/edit");
 require("../models/reissue");
@@ -24,6 +25,8 @@ const applicantSchema = new mongoose.Schema({
   status: { type: Number, default: 1 },
   createdDate: { type: Date, default: Date.now() },
 });
+// Add an auto-incrementing field called `userId`
+applicantSchema.plugin(AutoIncrement, { inc_field: "receiptNo" });
 // Create a model
 const Applicant = mongoose.model("Applicant", applicantSchema);
 module.exports = Applicant;
