@@ -20,8 +20,13 @@ const createUserSchema = checkSchema({
   username: {
     isLength: {
       options: {
-        min: 1,
+        max: 20,
+        min: 3,
       },
+    },
+    matches: {
+      options: [/^\S*$/],
+      errorMessage: 'Username must not contain spaces.',
     },
   },
   // must be email
@@ -59,74 +64,78 @@ const createUserSchema = checkSchema({
 });
 
 const updateUserSchema = checkSchema({
-  // No number allowed, Only small and capital, only English
-  name: {
+  firstName: {
     optional: {
       options: {
         nullable: true,
       },
-    },
-    isAlpha: {
-      locale: "en-US",
-      errorMessage: "Name must be alphabet only",
-    },
-  },
-  // Username(letter, number, alphanumeric)
-  username: {
-    optional: {
-      options: {
-        nullable: true,
-      },
-    },
-    isAlphanumeric: {
-      locale: "en-US",
     },
     isLength: {
       options: {
-        max: 15,
-        min: 6,
+        max: 50,
+      },
+    },
+  },
+  lastName: {
+    optional: {
+      options: {
+        nullable: true,
+      },
+    },
+    isLength: {
+      options: {
+        max: 50,
       },
     },
   },
   // must be int, min 1 max 150
-  age: {
+  gender: {
     optional: {
       options: {
         nullable: true,
       },
     },
-    isInt: {
-      options: { min: 1, max: 150 },
-      errorMessage: "Age must be between 1 and 150",
+    isIn: {
+      options: [['male', 'female']],
+      errorMessage: 'Gender must be either "male" or "female".',
     },
-  },
-  // must be email
-  email: {
-    optional: {
-      options: {
-        nullable: true,
-      },
-    },
-    isEmail: true,
-    // Check if email already registered
-    custom: {
-      options: async (value) => {
-        const user = await User.findOne({ email: value });
-        if (user) {
-          throw new Error(`User with email: ${value} already existed`);
-        }
-      },
-    },
-  },
-  // Must be URL
-  facebookURL: {
-    optional: {
-      options: {
-        nullable: true,
-      },
-    },
-    isURL: true,
   },
 });
 
-module.exports = { loginSchema, createUserSchema, updateUserSchema };
+const formSchema = checkSchema({
+  name: {
+    isLength: {
+      options: {
+        max: 70,
+      },
+    },
+  },
+  gender: {
+    isIn: {
+      options: [['male', 'female']],
+      errorMessage: 'Gender must be either "male" or "female".',
+    },
+  },
+  address: {
+    isLength: {
+      options: {
+        max: 100,
+      },
+    },
+  },
+  examCenter: {
+    isLength: {
+      options: {
+        max: 500,
+      },
+    },
+  },
+  grade: {
+    isIn: {
+      options: [['A','B' ,'C' ,'D' ,'E','F']],
+      errorMessage: 'Grade must be: "A","B","C","D","E","F".',
+    },
+  },
+});
+
+module.exports = { loginSchema, createUserSchema, updateUserSchema, formSchema };

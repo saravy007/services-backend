@@ -4,12 +4,7 @@ const upload = require("../middlewares/upload");
 const { authorize } = require("../middlewares");
 const userProfileRouter = express.Router();
 
-userProfileRouter.post(
-  "/:uid",
-  authorize("profile_upload_byuser"),
-  upload,
-  uploadFile
-);
+userProfileRouter.post("/:userid", authorize("profile_upload"), upload, uploadFile);
 /**
  * @swagger
  * /user-profile/{userid}:
@@ -38,7 +33,7 @@ userProfileRouter.post(
  *       200:
  *         description: User profile uploaded successfully
  */
-userProfileRouter.get("/:uid", authorize("profile_read_byuser"), getFile);
+userProfileRouter.get("/:userid", authorize("profile_read"), getFile);
 /**
  * @swagger
  * /user-profile/{userid}:

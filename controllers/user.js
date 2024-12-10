@@ -1,5 +1,4 @@
 const asyncHandler = require("express-async-handler");
-// const Tweet = require("../models/tweet.js");
 const User = require("../models/user");
 
 const getUsers = asyncHandler(async (req, res) => {
@@ -21,15 +20,13 @@ const deleteUserById = asyncHandler(async (req, res) => {
 
 const updateUserByID = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  const { firstName, lastName, gender, dob, phone, address } = req.body;
+  const { gender, dob, address, phone } = req.body;
   const updateDocument = {
     $set: {
-      firstName: firstName,
-      lastName: lastName,
       gender: gender,
       dob: dob,
-      phone: phone,
       address: address,
+      phone: phone,
     },
   };
   const result = await User.findOneAndUpdate({ _id: id }, updateDocument, {

@@ -2,8 +2,8 @@ const express = require("express");
 const {
   loginUser,
   signupUser,
-  showGoogleOAuthScreen,
-  handleGoogleLogin,
+  //showGoogleOAuthScreen,
+  //handleGoogleLogin,
 } = require("../controllers/auth");
 const { loginSchema, createUserSchema } = require("../common/validation");
 const { handleValidation } = require("../middlewares");
@@ -30,7 +30,7 @@ router.post("/login", loginSchema, handleValidation, loginUser);
  *             properties:
  *               email:
  *                  type: string
- *                  example: Zion_Nicolas9@gmail.com
+ *                  example: sok-dara@gmail.com
  *               password:
  *                  type: string
  *                  example: 12345678
@@ -52,12 +52,27 @@ router.post("/signup", createUserSchema, handleValidation, signupUser);
  *          schema:
  *             type: object
  *             properties:
- *               username:
+ *               firstName:
  *                  type: string
- *                  example: "sok-dara"
+ *                  example: "សុខ"
+ *               lastName:
+ *                  type: string
+ *                  example: "ដារ៉ា"
+ *               gender:
+ *                  type: string
+ *                  example: "male"
+ *               dob:
+ *                  type: date
+ *                  example: "01/10/1990"
+ *               address:
+ *                  type: string
+ *                  example: "ភ្នំពេញ"
  *               phone:
  *                  type: string
  *                  example: "012569874"
+ *               username:
+ *                  type: string
+ *                  example: "sok-dara"
  *               email:
  *                  type: string
  *                  example: sok-dara@gmail.com
@@ -71,6 +86,6 @@ router.post("/signup", createUserSchema, handleValidation, signupUser);
  *       200:
  *         description: Signup successfull
  */
-router.get("/show-google-oauth", showGoogleOAuthScreen);
-router.get("/google-callback", handleGoogleLogin);
+//router.get("/show-google-oauth", showGoogleOAuthScreen);
+//router.get("/google-callback", handleGoogleLogin);
 module.exports = router;

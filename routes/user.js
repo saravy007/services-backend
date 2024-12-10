@@ -6,11 +6,7 @@ const {
   updateUserByID,
 } = require("../controllers/user");
 const router = express.Router();
-const {
-  handleValidation,
-  authorize,
-  resourceControl,
-} = require("../middlewares");
+const { authorize } = require("../middlewares");
 const { updateUserSchema } = require("../common/validation");
 //const upload = require("../middlewares/upload");
 //const { uploadFile, getFile } = require("../controllers/user-profile");
@@ -69,17 +65,7 @@ router.delete("/:id", authorize("user_delete"), deleteUserById);
  *       200:
  *         description: Delete an user by ID
  */
-//update user
-// (req, res, next) => {
-//   req.saravy = "hello from saravy";
-//   console.log("hello1");
-//   next();
-// }
-// (req, res, next) => {
-//   console.log(req.saravy);
-//   next();
-// }
-router.put("/:id", authorize("user_update"), updateUserByID);
+router.put("/:id",updateUserSchema , authorize("user_update"), updateUserByID);
 /**
  * @swagger
  * /users/{id}:
@@ -100,30 +86,23 @@ router.put("/:id", authorize("user_update"), updateUserByID);
  *          application/json:
  *            schema:
  *              type: object
- *              properties:
- *                firstName:
- *                  type: string
- *                lastName:
- *                  type: string
+ *              properties:                
  *                gender:
  *                  type: string
  *                dob:
  *                  type: date
- *                phone:
- *                  type: string
  *                address:
  *                  type: string
- *              example:
- *                firstName: "សុខ"
- *                lastName: "សៅ"
+ *                phone:
+ *                  type: string
+ *              example:                
  *                gender: "Male"
  *                dob: "01/04/1991"
+ *                address: "ភ្នំពេញ"                
  *                phone: "012459678"
- *                address: "ភ្នំពេញ"
  *     responses:
  *       200:
  *         description: Update an user by ID
  */
-// router.put("/:id", updateUserSchema, handleValidation, updateUserByIDDB);
 
 module.exports = router;

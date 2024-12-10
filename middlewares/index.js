@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const { getPermissionsByRoleName } = require("../roles/role");
-const Applicant = require("../models/applicant");
+const form = require("../models/form");
 // const Tweet = require("../models/tweet");
 // Example middleware function
 const logger = (req, res, next) => {
@@ -53,7 +53,7 @@ const authorize = (permission) => {
     }
     const permissions = getPermissionsByRoleName(user.role);
     if (permissions.includes(permission)) {
-      req.permission = permission;
+      req.permission = permission;      
       next();
     } else {
       return res.status(403).json({ error: "Forbidden" });
@@ -69,9 +69,9 @@ const resourceControl = (resource) => {
     if (req.user.role == "admin") {
       //console.log("go next");
       next();
-    } else if (resource == "applicant") {
-      if (req.permission == "app_delete" || req.permission == "app_update") {
-        const app = await Applicant.findOne({ _id: id, byUser: userId });
+    } else if (resource == "form") {
+      if (req.permission == "form_delete" || req.permission == "form_update") {
+        const app = await form.findOne({ _id: id, byUser: userId });
         if (app) {
           next();
         } else {

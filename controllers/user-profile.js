@@ -7,11 +7,11 @@ const uploadFile = expressAsyncHandler(async (req, res) => {
   if (req.file == undefined) {
     throw new Error({ msg: "No file selected!" });
   } else {
-    const id = req.params.uid;
+    const id = req.params.userid;
     const fileProperties = req.file;
     fileProperties.byUser = id;
     const file = new UserProfile(fileProperties);
-    const path = "@/" + file.path; //
+    const path = process.env.FILE_PATH + file.path;
     file.path = path;
 
     let result;
@@ -35,7 +35,7 @@ const uploadFile = expressAsyncHandler(async (req, res) => {
 });
 
 const getFile = expressAsyncHandler(async (req, res) => {
-  const id = req.params.uid;
+  const id = req.params.userid;
   const file = await UserProfile.findOne({ byUser: id });
   return res.sendFile(file.path);
 });
