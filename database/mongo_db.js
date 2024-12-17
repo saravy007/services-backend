@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const dbName = "services-db";
 require("dotenv").config();
-const uri = `mongodb://localhost:27017/${dbName}`;
-//const uri = `mongodb://${process.env.MONGO_HOST}:27017/${dbName}`;
+//const uri = `mongodb://localhost:27017/${dbName}`;
+const uri = `mongodb://${process.env.MONGO_HOST}:27017/${dbName}`;
 
 async function dbConnect() {
   mongoose.connection.on("connected", () => {
