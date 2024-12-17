@@ -20,36 +20,50 @@ const uploadFile = expressAsyncHandler(async (req, res) => {
   }));
 
   let result;
-  const fileAttach = await FileAttach.find({ byUser: userid, byform: formid });
-  console.log(fileAttach);
-  if (fileAttach.length > 0) {
-    //delete old record from db
-    const resultDelete = await FileAttach.deleteMany({ byUser: userid, byform: formid });
-    //delete image profile in directory
-    for (let i = 0; i < fileAttach.length; i++) {
-      fs.unlinkSync(fileAttach[i].path);
-    }    
-    //save new record in db
-    for (let j = 0; j < uploadedFiles.length; j++) {     
-      const file = new FileAttach(uploadedFiles[j]);       
-      result = await file.save();
-    }    
-  }else{
-    for (let index = 0; index < uploadedFiles.length; index++) {
-      const file = new FileAttach(uploadedFiles[index]);
-      result = await file.save();
-    }
+  // const fileAttach = await FileAttach.find({ byUser: userid, byform: formid });
+  // if (fileAttach.length > 0) {
+  //   //delete old record from db
+  //   const resultDelete = await FileAttach.deleteMany({ byUser: userid, byform: formid });
+  //   //delete image profile in directory
+  //   for (let i = 0; i < fileAttach.length; i++) {
+  //     fs.unlinkSync(fileAttach[i].path);
+  //   }    
+  //   //save new record in db
+  //   for (let j = 0; j < uploadedFiles.length; j++) {     
+  //     const file = new FileAttach(uploadedFiles[j]);       
+  //     result = await file.save();
+  //   }    
+  // }else{
+  for (let index = 0; index < uploadedFiles.length; index++) {
+    const file = new FileAttach(uploadedFiles[index]);
+    result = await file.save();
   }
-
+  // }
   return res.json(result);  
 });
 
-const getFileId = expressAsyncHandler(async (req, res) => {
+const deleteFile = expressAsyncHandler(async (req, res) => {
+  const userid = req.params.userid;
+  const id = req.params.id;
+
+  const fileAttach = await FileAttach.findOne({ byUser: userid, _id: id });
+  let resultDelete
+  if(fileAttach){
+    //delete record from db
+    resultDelete = await FileAttach.deleteOne({ _id: id });
+    //delete image profile in directory
+    fs.unlinkSync(fileAttach.path);
+  }else{
+    return res.status(400).send({ message: 'No file to delete.' });
+  }
+  return res.json(resultDelete);
+});
+
+const getFiles = expressAsyncHandler(async (req, res) => {
   const userid = req.params.userid;
   const formid = req.params.formid;
   const files = await FileAttach.find({ byUser: userid, byform: formid });
-  const result = files.map(file => (file._id ));
-  return res.json(result);
+  return res.json(files);
 });
 
 const getFile = expressAsyncHandler(async (req, res) => {
@@ -59,4 +73,4 @@ const getFile = expressAsyncHandler(async (req, res) => {
   return res.sendFile(file.path);
 });
 
-module.exports = { uploadFile, getFile, getFileId };
+module.exports = { uploadFile, getFile, getFiles ,deleteFile };

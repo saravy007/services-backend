@@ -18,19 +18,19 @@ const countForms = asyncHandler(async (req, res) => {
 });
 
 const getForms = asyncHandler(async (req, res) => {
-  const forms = await Form.find();
+  const forms = await Form.find().populate("byUser");
   return res.json(forms);
 });
 
 const getForm = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  const form = await Form.findById(id);
+  const form = await Form.findById(id).populate("byUser");
   return res.json(form);
 });
 
 const getFormByUserID = asyncHandler(async (req, res) => {
   const id = req.params.id;
-  const form = await Form.find({ byUser: { _id: id } });
+  const form = await Form.find({ byUser: { _id: id } }).populate("byUser");
   return res.json(form);
 });
 

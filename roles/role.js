@@ -4,6 +4,7 @@ const roles = [
     permissions: [
       "attach_read",
       "attach_upload",
+      "attach_delete",
       "profile_read",
       "profile_upload",
       "user_read_all",
@@ -36,6 +37,7 @@ const roles = [
     permissions: [
       "attach_read",
       "attach_upload",
+      "attach_delete",
       "profile_read",
       "profile_upload",
       "user_read_byid",

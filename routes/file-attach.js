@@ -1,5 +1,5 @@
 const express = require("express");
-const { uploadFile, getFile, getFileId } = require("../controllers/file-attach");
+const { uploadFile, getFile, getFiles, deleteFile } = require("../controllers/file-attach");
 const { fileUpload } = require("../middlewares/file-attach");
 const { authorize } = require("../middlewares");
 const fileAttachRouter = express.Router();
@@ -40,13 +40,37 @@ fileAttachRouter.post("/:userid/:formid", authorize("attach_upload"), fileUpload
  *       200:
  *         description: File attach uploaded successfully
  */
-fileAttachRouter.get("/ids/:userid/:formid", authorize("attach_read"), getFileId);
+fileAttachRouter.delete("/:userid/:id", authorize("attach_delete"), deleteFile);
 /**
  * @swagger
- * /file-attach/ids/{userid}/{formid}:
+ * /file-attach/{userid}/{id}:
+ *   delete:
+ *     tags: [form-file-attach]
+ *     description: Delete a file attach by ID
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userid
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Delete a file attach by ID
+ */
+fileAttachRouter.get("/files/:userid/:formid", authorize("attach_read"), getFiles);
+/**
+ * @swagger
+ * /file-attach/files/{userid}/{formid}:
  *    get:
  *      tags: [form-file-attach]
- *      description: Get file paths by user id and application id
+ *      description: Get files by user id and application id
  *      security:
  *        - bearerAuth: []
  *      parameters:
@@ -62,7 +86,7 @@ fileAttachRouter.get("/ids/:userid/:formid", authorize("attach_read"), getFileId
  *            type: string
  *      responses:
  *        200:
- *          description: Get file pahts by user id and application id
+ *          description: Get files by user id and application id
  */
 fileAttachRouter.get("/:userid/:id", authorize("attach_read"), getFile);
 /**

@@ -46,14 +46,14 @@ const handleValidation = (req, res, next) => {
 };
 
 const authorize = (permission) => {
-  return (req, res, next) => {
+  return (req, res, next) => {    
     const user = req.user;
     if (!user) {
       return res.status(401).json({ error: "Access denied!" });
     }
     const permissions = getPermissionsByRoleName(user.role);
     if (permissions.includes(permission)) {
-      req.permission = permission;      
+      req.permission = permission;
       next();
     } else {
       return res.status(403).json({ error: "Forbidden" });
