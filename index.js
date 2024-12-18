@@ -5,6 +5,7 @@ const app = express();
 const port = 4000;
 const { logger, errorHandle } = require("./middlewares");
 const authRouter = require("./routes/auth.js");
+const qrRouter = require("./routes/qr-scan.js");
 const userRouter = require("./routes/user.js");
 const appRouter = require("./routes/form.js");
 const bodyParser = require("body-parser");
@@ -27,10 +28,12 @@ setupSwagger(app);
 app.use(bodyParser.json());
 app.use(logger);
 app.use("/auth", authRouter);
+app.use("/qr-scan", qrRouter);
 app.use("/users", passport.authenticate("jwt", { session: false }), userRouter);
 app.use("/form", passport.authenticate("jwt", { session: false }), appRouter);
 app.use("/user-profile", passport.authenticate("jwt", { session: false }), userProfileRouter);
 app.use("/file-attach", passport.authenticate("jwt", { session: false }), fileAttachRouter);
+
 // Basic error handling middleware
 app.use(errorHandle);
 

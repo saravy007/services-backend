@@ -4,6 +4,12 @@ const mongoose = require("mongoose");
 const { FileAttach } = require("../models/file-attach");
 const fs = require("fs");
 
+const getQrForm = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const form = await Form.findById(id).select("status");
+  return res.json(form);
+});
+
 const countForms = asyncHandler(async (req, res) => {
   const userid = req.params.userid;
   const countApp = await Form.countDocuments({
@@ -459,4 +465,5 @@ module.exports = {
   createForm,
   updateFormById,
   countForms,
+  getQrForm,
 };

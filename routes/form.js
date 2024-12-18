@@ -7,12 +7,30 @@ const {
   updateFormById,
   getFormByUserID,
   countForms,
+  getQrForm,
 } = require("../controllers/form");
 const { authorize, resourceControl } = require("../middlewares");
 const {fileUpload} = require("../middlewares/file-attach");
 const { formSchema } = require("../common/validation");
 const router = express.Router();
 
+router.get("/qr-scan/:id", getQrForm);
+/**
+ * @swagger
+ * /form/qr-scan/{id}:
+ *   get:
+ *     tags: [form]
+ *     description: Get form status by ID
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        required: true
+ *        schema:
+ *          type: string
+ *     responses:
+ *       200:
+ *         description: Get form status by ID
+ */
 router.get("/count/:userid", authorize("form_read_byid"), countForms);
 /**
  * @swagger
