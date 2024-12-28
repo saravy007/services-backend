@@ -48,6 +48,15 @@ app.use(
 // Basic error handling middleware
 app.use(errorHandle);
 
+// Serve static files from the 'dist' directory
+app.use(express.static(path.join(__dirname, "frontend/dist")));
+// Route all requests to index.html for Vue routing to handle
+// All routes for API need to put before catch all routes
+// So put `*` at the end
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
+});
+
 server = https.createServer({ key, cert }, app);
 server.listen(port, () => {
   console.log("Listening on port 4000!");
