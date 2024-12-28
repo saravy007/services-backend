@@ -19,6 +19,7 @@ const fileAttachRouter = require("./routes/file-attach.js");
 const key = fs.readFileSync("localhost-key.pem", "utf-8");
 const cert = fs.readFileSync("localhost.pem", "utf-8");
 const cors = require("cors");
+const path = require("node:path");
 
 app.use(cors());
 
@@ -54,7 +55,7 @@ app.use(express.static(path.join(__dirname, "frontend/dist")));
 // All routes for API need to put before catch all routes
 // So put `*` at the end
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
+  res.sendFile(path.join(__dirname, "frontend/dist"));
 });
 
 server = https.createServer({ key, cert }, app);
