@@ -55,7 +55,7 @@ app.use(express.static(path.join(__dirname, "frontend/dist")));
 // All routes for API need to put before catch all routes
 // So put `*` at the end
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/dist"));
+  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
 });
 
 server = https.createServer({ key, cert }, app);
